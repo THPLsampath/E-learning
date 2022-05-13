@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
+// import { hashHistory } from 'react-router';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';

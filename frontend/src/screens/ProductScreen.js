@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Rating from '../components/Rating';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
@@ -11,14 +11,19 @@ export default function ProductScreen(props) {
     const { id } = useParams();
     console.log(id);
     const productDetails = useSelector(state => state.productDetails)
+    const [qty, setQty] = useState(1);
     const {product, error, loading} = productDetails;
+
+    const navigate = useNavigate()
     
 
     useEffect(()=>{
         dispatch(detailsProduct(id));
     },[dispatch,id])
 
-    console.log(product);
+    const addToCartHandaler = () =>{
+        navigate(`/cart/${id}?qty=qty`)
+    }
     return (
         <div>
       {loading ? (
@@ -26,10 +31,12 @@ export default function ProductScreen(props) {
       ) : error ? (
       <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-      <div className="row center">
-            <div>
-                <Link to="/">Back to Result</Link>
+      <div >
+          <Link to="/">Back to Result</Link>
             <div className='row top'>
+            <div>
+                
+            </div>
             <div className='col-2'>
                 <img className='large' src={product.image} alt={product.name} />
             </div>
@@ -67,13 +74,30 @@ export default function ProductScreen(props) {
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <button className='primary block'>Add to card</button>
-                        </li>
+                        {
+                            product.countInStock > 0 && (
+                                <>
+                                <li>
+                                    <div className='row'>
+                                        <div>Qty</div>
+                                        <div>
+                                            <select value={qty} onChange={(e) => setQty(e.target.value)}>
+                                                {[...Array(product.countInStock).keys()].map(x=>(
+                                                    <option key={x+1} value={x+1}>{x+1}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                    <li>
+                                        <button onClick={addToCartHandaler} className='primary block'>Add to card</button>
+                                    </li>
+                                </>
+                            )
+                        }
                     </ul>
                 </div>
             </div>
-        </div>
         </div>
       </div>
       )
