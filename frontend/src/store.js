@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import data from './data';
 import thunk from 'redux-thunk';
+import { productListReducers } from './reducers/productReducers';
 
-const reducer = (state, action) =>{
-    return{product: data.products}
-}
+const reducer = combineReducers({
+  productList : productListReducers
+})
 
 const composeEnhancers = composeWithDevTools({});
 
