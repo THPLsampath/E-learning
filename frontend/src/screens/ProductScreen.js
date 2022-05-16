@@ -13,7 +13,7 @@ export default function ProductScreen(props) {
     const productDetails = useSelector(state => state.productDetails)
     const [qty, setQty] = useState(1);
     const {product, error, loading} = productDetails;
-
+    // const location = useLocation();
     const navigate = useNavigate()
     
 
@@ -22,7 +22,7 @@ export default function ProductScreen(props) {
     },[dispatch,id])
 
     const addToCartHandaler = () =>{
-        navigate(`/cart/${id}?qty=qty`)
+        navigate(`/cart/${id}${qty}`)
     }
     return (
         <div>
